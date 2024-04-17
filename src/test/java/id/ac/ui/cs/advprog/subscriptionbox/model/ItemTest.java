@@ -18,7 +18,7 @@ class ItemTest {
 
     @Test
     void testGetItemId(){
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId());
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId()); 
     }
 
     @Test
