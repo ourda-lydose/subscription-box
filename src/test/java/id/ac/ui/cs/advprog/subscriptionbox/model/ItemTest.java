@@ -12,13 +12,13 @@ class ItemTest {
         Item.Builder itemBuilder = new Item.Builder()
                 .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
-                .desc("Sunscreen yang ga lengket di kulit");
+                .image("link gambar");
         item = itemBuilder.build();
     }
 
     @Test
     void testGetItemId(){
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId()); 
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId());
     }
 
     @Test
@@ -28,6 +28,6 @@ class ItemTest {
 
     @Test
     void testGetItemDesc(){
-        assertEquals("Sunscreen yang ga lengket di kulit", item.getDescription());
+        assertEquals("link gambar", item.getImage());
     }
 }

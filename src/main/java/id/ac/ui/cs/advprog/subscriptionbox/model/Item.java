@@ -6,18 +6,18 @@ import lombok.Getter;
 public class Item {
     private String id;
     private String name;
-    private String description;
+    private String image;
 
     private Item(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
-        this.description = builder.description;
+        this.image = builder.image;
     }
 
     public static class Builder {
         private String id;
         private String name;
-        private String description;
+        private String image;
 
         public Builder id(String id) {
             this.id = id;
@@ -29,8 +29,8 @@ public class Item {
             return this;
         }
 
-        public Builder desc(String description) {
-            this.description = description;
+        public Builder image(String description) {
+            this.image = description;
             return this;
         }
 
