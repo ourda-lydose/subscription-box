@@ -27,7 +27,7 @@ class ItemTest {
     }
 
     @Test
-    void testGetItemDesc(){
+    void testGetItemImage(){
         assertEquals("link gambar", item.getImage());
     }
 }
