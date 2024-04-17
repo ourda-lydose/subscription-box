@@ -13,7 +13,7 @@ class ItemTest {
                 .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .desc("Sunscreen yang ga lengket di kulit");
-        Item item = itemBuilder.build();
+        item = itemBuilder.build();
     }
 
     @Test
