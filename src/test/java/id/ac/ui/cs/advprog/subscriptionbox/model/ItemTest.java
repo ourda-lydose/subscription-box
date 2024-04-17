@@ -28,6 +28,6 @@ class ItemTest {
 
     @Test
     void testGetItemDesc(){
-        assertEquals("Sunscreen yang ga lengket di kulit", item.getDesc());
+        assertEquals("Sunscreen yang ga lengket di kulit", item.getDescription());
     }
 }
