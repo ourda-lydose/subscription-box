@@ -6,27 +6,28 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
     Item.Builder itemBuilder;
+    Item item;
     @BeforeEach
     void setUp(){
         Item.Builder itemBuilder = new Item.Builder()
                 .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .desc("Sunscreen yang ga lengket di kulit");
-        itemBuilder.build();
+        Item item = itemBuilder.build();
     }
 
     @Test
     void testGetItemId(){
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", itemBuilder.id());
+        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId());
     }
 
     @Test
     void testGetItemName(){
-        assertEquals("Sunscreen cap Bambang", itemBuilder.name());
+        assertEquals("Sunscreen cap Bambang", item.getName());
     }
 
     @Test
     void testGetItemDesc(){
-        assertEquals("Sunscreen yang ga lengket di kulit", itemBuilder.desc());
+        assertEquals("Sunscreen yang ga lengket di kulit", item.getDesc());
     }
 }
