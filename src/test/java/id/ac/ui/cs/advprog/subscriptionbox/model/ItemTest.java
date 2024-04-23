@@ -14,6 +14,7 @@ class ItemTest {
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         item = itemBuilder.build();
+        item.setDescription("Sunscreen yang licin di kulit");
     }
 
     @Test
@@ -30,4 +31,7 @@ class ItemTest {
     void testGetItemImage(){
         assertEquals("link gambar", item.getImage());
     }
+
+    @Test
+    void testSetItemDescription(){ assertEquals("Sunscreen yang licin di kulit", item.getDescription()); }
 }
