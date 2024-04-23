@@ -5,11 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
-    Item.Builder itemBuilder;
+    ItemBuilder itemBuilder;
     Item item;
     @BeforeEach
     void setUp(){
-        Item.Builder itemBuilder = new Item.Builder()
+        ItemBuilder itemBuilder = new ItemBuilder()
                 .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
