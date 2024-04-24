@@ -1,12 +1,10 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 
-@Entity
 @Getter @Setter
 public class SubscriptionBox {
     private final String id;
