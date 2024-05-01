@@ -4,12 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 class SubscriptionBoxTest {
     BoxBuilder boxBuilder;
     SubscriptionBox box;
-    ArrayList<ItemInBox> itemInBoxList = new ArrayList<>();
+    Set<ItemInBox> itemInBoxList;
     @BeforeEach
     void setUp(){
         BoxBuilder boxBuilder = new BoxBuilder()
@@ -24,7 +25,7 @@ class SubscriptionBoxTest {
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         Item item = itemBuilder.build();
-        ItemInBox itemInBox = new ItemInBox(item, 2);
+        ItemInBox itemInBox = new ItemInBox(item.getId(), 2);
         itemInBoxList.add(itemInBox);
         box.setItemInBoxList(itemInBoxList);
     }
