@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,7 @@ public class BoxManagerTest {
     Item item2;
     SubscriptionBox box1;
     SubscriptionBox box2;
-    ArrayList<ItemInBox> itemInBoxList = new ArrayList<>();
+    Set<ItemInBox> itemInBoxList;
 
     @BeforeEach
     void setUp(){
@@ -51,8 +52,8 @@ public class BoxManagerTest {
         box1 = boxBuilder.build();
         box1.setDescription("Paket lengkap");
         box1.setPrice(200000);
-        ItemInBox itemInBox1 = new ItemInBox(item1, 2);
-        ItemInBox itemInBox2 = new ItemInBox(item2, 3);
+        ItemInBox itemInBox1 = new ItemInBox(item1.getId(), 2);
+        ItemInBox itemInBox2 = new ItemInBox(item2.getId(), 3);
         itemInBoxList.add(itemInBox1);
         itemInBoxList.add(itemInBox2);
         box1.setItemInBoxList(itemInBoxList);
