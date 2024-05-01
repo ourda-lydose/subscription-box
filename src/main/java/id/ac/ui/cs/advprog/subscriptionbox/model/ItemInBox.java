@@ -1,15 +1,27 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
+import id.ac.ui.cs.advprog.subscriptionbox.repository.ItemManager;
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter @Setter
+@Entity
+@NoArgsConstructor
+@Table(name="ItemInBox")
 public class ItemInBox {
-    Item item;
-    int quantity;
+    @Id
+    private String idItemInBox;
+    private String itemId;
+    private int quantity;
 
-    public ItemInBox(Item item, int quantity) {
-        this.item = item;
+    @ManyToOne
+    @JoinColumn(name="subscriptionbox_id", nullable=false)
+    private SubscriptionBox subscriptionbox;
+
+    public ItemInBox(String itemId, int quantity) {
+        this.itemId = itemId;
         this.quantity = quantity;
     }
 }
