@@ -4,13 +4,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 class SubscriptionBoxTest {
     BoxBuilder boxBuilder;
     SubscriptionBox box;
-    Set<ItemInBox> itemInBoxList;
+    Set<ItemInBox> itemInBoxList = new HashSet<>();
     @BeforeEach
     void setUp(){
         BoxBuilder boxBuilder = new BoxBuilder()

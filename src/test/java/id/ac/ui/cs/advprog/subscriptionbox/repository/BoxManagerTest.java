@@ -11,10 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -27,7 +24,7 @@ public class BoxManagerTest {
     Item item2;
     SubscriptionBox box1;
     SubscriptionBox box2;
-    Set<ItemInBox> itemInBoxList;
+    Set<ItemInBox> itemInBoxList = new HashSet<>();
 
     @BeforeEach
     void setUp(){
