@@ -1,14 +1,12 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter @Setter
 @Data @Entity
 @NoArgsConstructor
-@Table(name="_item")
+@Table(name="item")
 public class Item{
     @Id
     private String id;

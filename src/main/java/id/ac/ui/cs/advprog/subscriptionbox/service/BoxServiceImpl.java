@@ -4,11 +4,14 @@ import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.Future;
 
 @Service
 public class BoxServiceImpl implements BoxService {
@@ -20,6 +23,12 @@ public class BoxServiceImpl implements BoxService {
         boxManager.save(box);
         return box;
     }
+//
+//    @Async
+//    public Future<SubscriptionBox> createAsync(SubscriptionBox box) {
+//        SubscriptionBox savedBox = boxManager.save(box);
+//        return new AsyncResult<>(savedBox);
+//    }
 
     @Override
     public List<SubscriptionBox> findAll() {
@@ -43,7 +52,7 @@ public class BoxServiceImpl implements BoxService {
         if (optionalBox.isPresent()) {
             SubscriptionBox existingBox= optionalBox.get();
             // Update user fields
-            existingBox.setDescription(newBox.getName());
+            existingBox.setDescription(newBox.getDescription());
             existingBox.setItemInBoxList(newBox.getItemInBoxList());
             existingBox.setPrice(newBox.getPrice());
             // Save and return updated user

@@ -1,9 +1,12 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Getter;
 
 @Getter
 public class BoxBuilder implements Builder{
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
     private String image;

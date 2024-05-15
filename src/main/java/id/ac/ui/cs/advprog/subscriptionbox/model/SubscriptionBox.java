@@ -1,9 +1,6 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +12,7 @@ import java.util.Set;
 @Getter @Setter
 @Entity
 @NoArgsConstructor
-@Table(name="SubscriptionBox")
+@Table(name="subscriptionbox")
 public class SubscriptionBox {
     @Id
     private String id;

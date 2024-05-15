@@ -91,8 +91,6 @@ public class BoxController {
 
     @Autowired
     private BoxService boxService;
-    @Autowired
-    private ItemService itemService;
 
     @PostMapping // Use POST for creating new subscription boxes
     public ResponseEntity<SubscriptionBox> createBox(@RequestBody SubscriptionBox box) {

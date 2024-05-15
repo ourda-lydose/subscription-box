@@ -4,9 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import id.ac.ui.cs.advprog.subscriptionbox.model.*;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
 import id.ac.ui.cs.advprog.subscriptionbox.service.BoxService;
+import id.ac.ui.cs.advprog.subscriptionbox.service.BoxServiceImpl;
 import id.ac.ui.cs.advprog.subscriptionbox.service.ItemService;
+import id.ac.ui.cs.advprog.subscriptionbox.service.ItemServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,10 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -33,14 +35,12 @@ public class BoxControllerTest {
     @Autowired
     private BoxController boxController;
 
-    @MockBean
-    private BoxService boxService;
+    @MockBean // Mock the BoxService to avoid interacting with real database
+    private BoxServiceImpl boxService;
 
     @MockBean
-    BoxManager boxManager;
+    private BoxManager boxManager;
 
-    @MockBean
-    private ItemService itemService;
 
     private ObjectMapper objectMapper;
 
@@ -159,18 +159,20 @@ public class BoxControllerTest {
 //    @Test
 //    public void testUpdateBox_Success() throws Exception {
 //        // Mock findById to return existing item
-//        when(boxService.findById(box.getId())).thenReturn(box);
-//        when(boxService.findById(boxLain.getId())).thenReturn(boxLain);
-//        when(boxService.update(box.getId(), boxLain)).thenReturn(boxLain);
+////        when(boxManager.findById(box.getId())).thenReturn(box);
+////        when(boxManager.findById(boxLain.getId())).thenReturn(boxLain);
+////        when(boxService.findById(box.getId())).thenReturn(box);
+////        when(boxService.findById(boxLain.getId())).thenReturn(boxLain);
+//        when(boxService.update(boxLain.getId(), box)).thenReturn(box);
 //
 //        // Update the item
-//        mockMvc.perform(put("/box/" + box.getId())
+//        mockMvc.perform(put("/box/" + boxLain.getId())
 //                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(boxLain)))
+//                        .content(objectMapper.writeValueAsString(box)))
 //                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(boxLain)));
+//                .andExpect(content().json(objectMapper.writeValueAsString(box)));
 //
-//        verify(boxService, times(1)).update(box.getId(), boxLain);
+//        verify(boxService, times(1)).update(boxLain.getId(), box);
 //    }
 
     @Test

@@ -11,13 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Table(name="ItemInBox")
 public class ItemInBox {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String idItemInBox;
     private String itemId;
     private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name="subscriptionbox_id", nullable=false)
+    @ManyToOne @JoinColumn(name="subscriptionbox_id", nullable=false)
     private SubscriptionBox subscriptionbox;
 
     public ItemInBox(String itemId, int quantity) {
