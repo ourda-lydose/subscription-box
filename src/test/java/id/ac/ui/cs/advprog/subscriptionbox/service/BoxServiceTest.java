@@ -32,6 +32,7 @@ class BoxServiceTest {
     Item item2;
     @Mock
     Set<ItemInBox> itemInBoxList;
+    BoxBuilder boxBuilder = new BoxBuilder();
 
     SubscriptionBox findById(String id){
         for(SubscriptionBox box : boxes){
@@ -90,8 +91,8 @@ class BoxServiceTest {
 
     @Test
     void testCreateAndFind(){
-        doReturn(box1).when(boxManager).save(box1);
-        service.create(box1);
+        doReturn(box1).when(boxManager).save(any(SubscriptionBox.class));
+        service.create(boxBuilder, "Paket lengkap", 200000);
         boxes.add(box1);
         when(boxManager.findAll()).thenReturn(boxes);
         List<SubscriptionBox> boxIterator = service.findAll();
@@ -104,8 +105,8 @@ class BoxServiceTest {
 
     @Test
     void testEdit() {
-        doReturn(box1).when(boxManager).save(box1);
-        service.create(box1);
+        doReturn(box1).when(boxManager).save(any(SubscriptionBox.class));
+        service.create(boxBuilder, "Paket lengkap", 200000);
         boxes.add(box1);
         when(boxManager.findById(box1.getId())).thenReturn(Optional.ofNullable(findById(box1.getId())));
         service.update(box1.getId(), box2);

@@ -73,6 +73,8 @@
 
 package id.ac.ui.cs.advprog.subscriptionbox.controller;
 
+import id.ac.ui.cs.advprog.subscriptionbox.dto.BoxRequest;
+import id.ac.ui.cs.advprog.subscriptionbox.model.BoxBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.model.ItemInBox;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.service.BoxService;
@@ -93,8 +95,11 @@ public class BoxController {
     private BoxService boxService;
 
     @PostMapping // Use POST for creating new subscription boxes
-    public ResponseEntity<SubscriptionBox> createBox(@RequestBody SubscriptionBox box) {
-        SubscriptionBox createdBox = boxService.create(box);
+    public ResponseEntity<SubscriptionBox> createBox(@RequestBody BoxRequest boxRequest) {
+        BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
+        String description = boxRequest.getDescription();
+        double price = boxRequest.getPrice();
+        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price);
         return new ResponseEntity<>(createdBox, HttpStatus.CREATED); // CREATED status code
     }
 

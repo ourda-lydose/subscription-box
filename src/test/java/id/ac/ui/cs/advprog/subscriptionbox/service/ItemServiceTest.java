@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.subscriptionbox.service;
 
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.ItemBuilder;
+import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.ItemManager;
 import org.hibernate.service.spi.InjectService;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +29,7 @@ class ItemServiceTest {
     Item item1;
     Item item2;
     List<Item> items = new ArrayList<>();
+    ItemBuilder itemBuilder1 = new ItemBuilder();
 
     Item findById(String id){
         for(Item item : items){
@@ -62,8 +64,8 @@ class ItemServiceTest {
 
     @Test
     void testCreateAndFind(){
-        doReturn(item1).when(itemManager).save(item1);
-        service.create(item1);
+        doReturn(item1).when(itemManager).save(any(Item.class));
+        service.create(itemBuilder1, "Sunscreen yang licin di kulit");
         items.add(item1);
         when(itemManager.findAll()).thenReturn(items);
         List<Item> itemIterator = service.findAll();
@@ -76,8 +78,8 @@ class ItemServiceTest {
 
     @Test
     void testEdit() {
-        doReturn(item1).when(itemManager).save(item1);
-        service.create(item1);
+        doReturn(item1).when(itemManager).save(any(Item.class));
+        service.create(itemBuilder1, "Sunscreen yang licin di kulit");
         items.add(item1);
         when(itemManager.findById(item1.getId())).thenReturn(Optional.ofNullable(findById(item1.getId())));
         service.update(item1.getId(), item2);

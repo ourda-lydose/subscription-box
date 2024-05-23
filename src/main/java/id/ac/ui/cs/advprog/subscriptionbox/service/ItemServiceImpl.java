@@ -1,6 +1,9 @@
 package id.ac.ui.cs.advprog.subscriptionbox.service;
 
+import id.ac.ui.cs.advprog.subscriptionbox.model.BoxBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
+import id.ac.ui.cs.advprog.subscriptionbox.model.ItemBuilder;
+import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.ItemManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +17,11 @@ public class ItemServiceImpl implements ItemService {
     private ItemManager itemManager;
 
     @Override
-    public Item create(Item item) {
-        return itemManager.save(item);
+    public Item create(ItemBuilder itemBuilder, String description) {
+        Item item = itemBuilder.build();
+        item.setDescription(description);
+        itemManager.save(item);
+        return item;
     }
 
     @Override

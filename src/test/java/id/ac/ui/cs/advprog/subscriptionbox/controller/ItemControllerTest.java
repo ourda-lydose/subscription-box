@@ -1,6 +1,8 @@
 package id.ac.ui.cs.advprog.subscriptionbox.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper; // Needed for JSON parsing
+import id.ac.ui.cs.advprog.subscriptionbox.dto.BoxRequest;
+import id.ac.ui.cs.advprog.subscriptionbox.dto.ItemRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.ItemBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.ItemManager;
@@ -16,7 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,6 +46,7 @@ public class ItemControllerTest {
 
     private ObjectMapper objectMapper;
 
+    ItemBuilder itemBuilder1;
     Item item1;
     Item item2;
 
@@ -66,16 +71,22 @@ public class ItemControllerTest {
 
     @Test
     public void testCreateItem() throws Exception {
+        ItemRequest itemRequest = new ItemRequest();
+        itemRequest.setItemBuilder(itemBuilder1);
+        itemRequest.setDescription("Sunscreen yang licin di kulit");
 
-        when(itemService.create(any(Item.class))).thenReturn(item1);
+        when(itemService.create(itemBuilder1, "Sunscreen yang licin di kulit")).thenReturn(item1);
+
+//        when(itemService.create(itemBuilder1, "Sunscreen yang licin di kulit")).thenReturn(item1);
+
 
         mockMvc.perform(post("/item")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(item1)))
+                        .content(objectMapper.writeValueAsString(itemRequest)))
                 .andExpect(status().isCreated()) // Expect CREATED status code
                 .andExpect(content().json(objectMapper.writeValueAsString(item1)));
 
-        verify(itemService, times(1)).create(any(Item.class));
+        verify(itemService, times(1)).create(itemBuilder1, "Sunscreen yang licin di kulit");
     }
 
     @Test

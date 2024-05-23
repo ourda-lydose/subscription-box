@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.subscriptionbox.service;
 
+import id.ac.ui.cs.advprog.subscriptionbox.model.BoxBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
@@ -19,13 +20,16 @@ public class BoxServiceImpl implements BoxService {
     private BoxManager boxManager;
 
     @Override
-    public SubscriptionBox create(SubscriptionBox box) {
+    public SubscriptionBox create(BoxBuilder boxBuilder, String description, double price) {
+        SubscriptionBox box = boxBuilder.build();
+        box.setDescription(description);
+        box.setPrice(price);
         boxManager.save(box);
         return box;
     }
-//
+
 //    @Async
-//    public Future<SubscriptionBox> createAsync(SubscriptionBox box) {
+//    public SubscriptionBox createAsync(SubscriptionBox box) throws InterruptedException{
 //        SubscriptionBox savedBox = boxManager.save(box);
 //        return new AsyncResult<>(savedBox);
 //    }

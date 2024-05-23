@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.subscriptionbox.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import id.ac.ui.cs.advprog.subscriptionbox.dto.BoxRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.model.*;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
 import id.ac.ui.cs.advprog.subscriptionbox.service.BoxService;
@@ -85,15 +86,20 @@ public class BoxControllerTest {
 
     @Test
     public void testCreateBox() throws Exception {
-        when(boxService.create(any(SubscriptionBox.class))).thenReturn(box);
+        BoxRequest boxRequest = new BoxRequest();
+        boxRequest.setBoxBuilder(boxBuilder);
+        boxRequest.setDescription("Paket lengkap");
+        boxRequest.setPrice(200000);
+
+        when(boxService.create(boxBuilder, "Paket lengkap", 200000)).thenReturn(box);
 
         mockMvc.perform(post("/box")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(box)))
+                        .content(objectMapper.writeValueAsString(boxRequest)))
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(box)));
 
-        verify(boxService, times(1)).create(any(SubscriptionBox.class));
+        verify(boxService, times(1)).create(boxBuilder, "Paket lengkap", 200000);
     }
 
     @Test

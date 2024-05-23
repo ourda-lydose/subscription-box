@@ -58,7 +58,9 @@
 
 package id.ac.ui.cs.advprog.subscriptionbox.controller;
 
+import id.ac.ui.cs.advprog.subscriptionbox.dto.ItemRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
+import id.ac.ui.cs.advprog.subscriptionbox.model.ItemBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -75,8 +77,10 @@ public class ItemController {
     private ItemService itemService;
 
     @PostMapping // Use POST for creating new items
-    public ResponseEntity<Item> createItem(@RequestBody Item item) {
-        Item createdItem = itemService.create(item);
+    public ResponseEntity<Item> createItem(@RequestBody ItemRequest itemRequest) {
+        ItemBuilder itemBuilder = itemRequest.getItemBuilder();
+        String description = itemRequest.getDescription();
+        Item createdItem = itemService.create(itemBuilder, description);
         return new ResponseEntity<>(createdItem, HttpStatus.CREATED); // CREATED status code
     }
 
