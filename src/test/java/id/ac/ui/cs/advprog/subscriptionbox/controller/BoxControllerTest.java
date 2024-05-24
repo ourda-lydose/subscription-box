@@ -90,8 +90,10 @@ public class BoxControllerTest {
         boxRequest.setBoxBuilder(boxBuilder);
         boxRequest.setDescription("Paket lengkap");
         boxRequest.setPrice(200000);
+        boxRequest.setItemInBoxList(itemInBoxList);
 
-        when(boxService.create(boxBuilder, "Paket lengkap", 200000)).thenReturn(box);
+
+        when(boxService.create(boxBuilder, "Paket lengkap", 200000, itemInBoxList)).thenReturn(box);
 
         mockMvc.perform(post("/box")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +101,7 @@ public class BoxControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(content().json(objectMapper.writeValueAsString(box)));
 
-        verify(boxService, times(1)).create(boxBuilder, "Paket lengkap", 200000);
+        verify(boxService, times(1)).create(boxBuilder, "Paket lengkap", 200000, itemInBoxList);
     }
 
     @Test
@@ -176,7 +178,7 @@ public class BoxControllerTest {
 //                        .contentType(MediaType.APPLICATION_JSON)
 //                        .content(objectMapper.writeValueAsString(box)))
 //                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(box)));
+//                .andExpect(content().json(objectMapper.writeValueAsString(boxLain)));
 //
 //        verify(boxService, times(1)).update(boxLain.getId(), box);
 //    }

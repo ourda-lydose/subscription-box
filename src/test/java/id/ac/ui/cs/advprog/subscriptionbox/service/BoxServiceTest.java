@@ -92,7 +92,7 @@ class BoxServiceTest {
     @Test
     void testCreateAndFind(){
         doReturn(box1).when(boxManager).save(any(SubscriptionBox.class));
-        service.create(boxBuilder, "Paket lengkap", 200000);
+        service.create(boxBuilder, "Paket lengkap", 200000, itemInBoxList);
         boxes.add(box1);
         when(boxManager.findAll()).thenReturn(boxes);
         List<SubscriptionBox> boxIterator = service.findAll();
@@ -106,7 +106,7 @@ class BoxServiceTest {
     @Test
     void testEdit() {
         doReturn(box1).when(boxManager).save(any(SubscriptionBox.class));
-        service.create(boxBuilder, "Paket lengkap", 200000);
+        service.create(boxBuilder, "Paket lengkap", 200000, itemInBoxList);
         boxes.add(box1);
         when(boxManager.findById(box1.getId())).thenReturn(Optional.ofNullable(findById(box1.getId())));
         service.update(box1.getId(), box2);

@@ -21,6 +21,7 @@ public class SubscriptionBox {
     private String description;
     private double price;
 
+//    @OneToMany(fetch = FetchType.EAGER)
     @OneToMany(mappedBy="subscriptionbox")
     private Set<ItemInBox> itemInBoxList;
 
