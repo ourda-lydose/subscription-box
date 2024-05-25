@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,8 @@ public class SubscriptionBox {
     private double price;
 
 //    @OneToMany(fetch = FetchType.EAGER)
-    @OneToMany(mappedBy="subscriptionbox")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="subscriptionbox", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<ItemInBox> itemInBoxList;
 
     protected SubscriptionBox(BoxBuilder builder) {

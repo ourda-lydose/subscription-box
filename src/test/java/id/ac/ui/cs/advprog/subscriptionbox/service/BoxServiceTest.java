@@ -11,10 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -30,8 +27,7 @@ class BoxServiceTest {
     List<SubscriptionBox> boxes = new ArrayList<>();
     Item item1;
     Item item2;
-    @Mock
-    Set<ItemInBox> itemInBoxList;
+    Set<ItemInBox> itemInBoxList = new HashSet<>();
     BoxBuilder boxBuilder = new BoxBuilder();
 
     SubscriptionBox findById(String id){

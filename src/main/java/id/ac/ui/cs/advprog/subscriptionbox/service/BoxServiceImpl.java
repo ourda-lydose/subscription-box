@@ -23,7 +23,19 @@ public class BoxServiceImpl implements BoxService {
         SubscriptionBox box = boxBuilder.build();
         box.setDescription(description);
         box.setPrice(price);
-        box.setItemInBoxList(itemInBoxList);
+
+        Set<ItemInBox> itemInBoxSet = new HashSet<ItemInBox>();
+        for (ItemInBox item : itemInBoxList) {
+            // new Blog
+            ItemInBox itemInBox = new ItemInBox(item.getItemId(), item.getQuantity());
+            // set owner to Blog
+            itemInBox.setSubscriptionbox(box);
+            // add blog to list
+            itemInBoxSet.add(itemInBox);
+        }
+
+        box.setItemInBoxList(itemInBoxSet);
+
         boxManager.save(box);
         return box;
     }
