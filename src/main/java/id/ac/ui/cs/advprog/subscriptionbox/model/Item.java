@@ -8,14 +8,13 @@ import lombok.*;
 @NoArgsConstructor
 @Table(name="item")
 public class Item{
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
     private String image;
     private String description;
 
     protected Item(ItemBuilder builder) {
-        this.id = builder.getId();
         this.name = builder.getName();
         this.image = builder.getImage();
     }

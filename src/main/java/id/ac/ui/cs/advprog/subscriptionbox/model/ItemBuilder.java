@@ -6,16 +6,9 @@ import lombok.Getter;
 
 @Getter
 public class ItemBuilder implements Builder{
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
     private String name;
     private String image;
 
-    @Override
-    public ItemBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
     @Override
     public ItemBuilder name(String name) {
         this.name = name;

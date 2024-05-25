@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.subscriptionbox.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,18 +15,18 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name="subscriptionbox")
 public class SubscriptionBox {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
     private String image;
     private String description;
     private double price;
 
-    @OneToMany(mappedBy="subscriptionbox")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="subscriptionbox", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<ItemInBox> itemInBoxList;
 
     protected SubscriptionBox(BoxBuilder builder) {
-        this.id = builder.getId();
         this.name = builder.getName();
         this.image = builder.getImage();
     }

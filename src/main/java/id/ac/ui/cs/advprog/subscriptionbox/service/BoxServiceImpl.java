@@ -2,6 +2,7 @@ package id.ac.ui.cs.advprog.subscriptionbox.service;
 
 import id.ac.ui.cs.advprog.subscriptionbox.model.BoxBuilder;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
+import id.ac.ui.cs.advprog.subscriptionbox.model.ItemInBox;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Future;
 
 @Service
@@ -20,10 +19,23 @@ public class BoxServiceImpl implements BoxService {
     private BoxManager boxManager;
 
     @Override
-    public SubscriptionBox create(BoxBuilder boxBuilder, String description, double price) {
+    public SubscriptionBox create(BoxBuilder boxBuilder, String description, double price, Set<ItemInBox> itemInBoxList) {
         SubscriptionBox box = boxBuilder.build();
         box.setDescription(description);
         box.setPrice(price);
+
+        Set<ItemInBox> itemInBoxSet = new HashSet<ItemInBox>();
+        for (ItemInBox item : itemInBoxList) {
+            // new Blog
+            ItemInBox itemInBox = new ItemInBox(item.getItemId(), item.getQuantity());
+            // set owner to Blog
+            itemInBox.setSubscriptionbox(box);
+            // add blog to list
+            itemInBoxSet.add(itemInBox);
+        }
+
+        box.setItemInBoxList(itemInBoxSet);
+
         boxManager.save(box);
         return box;
     }

@@ -75,6 +75,7 @@ package id.ac.ui.cs.advprog.subscriptionbox.controller;
 
 import id.ac.ui.cs.advprog.subscriptionbox.dto.BoxRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.model.BoxBuilder;
+import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.ItemInBox;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.service.BoxService;
@@ -84,6 +85,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -99,7 +101,8 @@ public class BoxController {
         BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
         String description = boxRequest.getDescription();
         double price = boxRequest.getPrice();
-        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price);
+        Set<ItemInBox> itemsInBoxList = boxRequest.getItemInBoxList();
+        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price, itemsInBoxList);
         return new ResponseEntity<>(createdBox, HttpStatus.CREATED); // CREATED status code
     }
 
