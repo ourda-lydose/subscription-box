@@ -2,20 +2,14 @@ package id.ac.ui.cs.advprog.subscriptionbox.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 @Getter
 public class BoxBuilder implements Builder{
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
     private String name;
     private String image;
 
-    @Override
-    public BoxBuilder id(String id) {
-        this.id = id;
-        return this;
-    }
     @Override
     public BoxBuilder name(String name) {
         this.name = name;

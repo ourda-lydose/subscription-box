@@ -55,17 +55,17 @@ public class ItemControllerTest {
         objectMapper = new ObjectMapper();
         mockMvc = MockMvcBuilders.standaloneSetup(itemController).build();
         ItemBuilder itemBuilder1 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         item1 = itemBuilder1.build();
+        item1.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
         item1.setDescription("Sunscreen yang licin di kulit");
 
         ItemBuilder itemBuilder2 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd7")
                 .name("Sunscreen cap Bambang uhuy")
                 .image("link gambar lageh");
         item2 = itemBuilder2.build();
+        item2.setId("eb558e9f-1c39-460e-8860-71af6af63bd7");
         item2.setDescription("Sunscreen yang lembab di kulit");
     }
 
@@ -137,7 +137,7 @@ public class ItemControllerTest {
         when(itemService.update(item1.getId(), item2)).thenReturn(item2);
 
         // Update the item
-        mockMvc.perform(put("/item/" + "eb558e9f-1c39-460e-8860-71af6af63bd6")
+        mockMvc.perform(put("/item/" + item1.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(item2)))
                 .andExpect(status().isOk())

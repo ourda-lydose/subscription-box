@@ -29,21 +29,18 @@ public class BoxManagerTest {
     @BeforeEach
     void setUp(){
         ItemBuilder itemBuilder1 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         item1 = itemBuilder1.build();
         item1.setDescription("Sunscreen yang licin di kulit");
 
         ItemBuilder itemBuilder2 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd7")
                 .name("Sunscreen cap Bambang uhuy")
                 .image("link gambar lageh");
         item2 = itemBuilder2.build();
         item2.setDescription("Sunscreen yang lembab di kulit");
 
         BoxBuilder boxBuilder = new BoxBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd8")
                 .name("Paket cap Bambang")
                 .image("link gambar box");
         box1 = boxBuilder.build();
@@ -77,9 +74,9 @@ public class BoxManagerTest {
     public void testFindBoxById() {
         when(boxManager.findById(box1.getId())).thenReturn(Optional.of(box1));
 
-        Optional<SubscriptionBox> retrievedBox = boxManager.findById("eb558e9f-1c39-460e-8860-71af6af63bd8");
+        Optional<SubscriptionBox> retrievedBox = boxManager.findById(box1.getId());
 
-        verify(boxManager, times(1)).findById("eb558e9f-1c39-460e-8860-71af6af63bd8");
+        verify(boxManager, times(1)).findById(box1.getId());
 
         // Assert the expected result
         assertTrue(retrievedBox.isPresent());
@@ -102,11 +99,11 @@ public class BoxManagerTest {
 
     @Test
     void testDelete() {
-        doNothing().when(boxManager).deleteById("eb558e9f-1c39-460e-8860-71af6af63bd8");
+        doNothing().when(boxManager).deleteById(box1.getId());
 
-        boxManager.deleteById("eb558e9f-1c39-460e-8860-71af6af63bd8");
+        boxManager.deleteById(box1.getId());
 
-        verify(boxManager, times(1)).deleteById("eb558e9f-1c39-460e-8860-71af6af63bd8");
+        verify(boxManager, times(1)).deleteById(box1.getId());
     }
 
 }

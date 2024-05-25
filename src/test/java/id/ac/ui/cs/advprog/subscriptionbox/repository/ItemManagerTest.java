@@ -25,14 +25,12 @@ public class ItemManagerTest {
     @BeforeEach
     void setUp(){
         ItemBuilder itemBuilder1 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         item1 = itemBuilder1.build();
         item1.setDescription("Sunscreen yang licin di kulit");
 
         ItemBuilder itemBuilder2 = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd7")
                 .name("Sunscreen cap Bambang uhuy")
                 .image("link gambar lageh");
         item2 = itemBuilder2.build();
@@ -54,9 +52,9 @@ public class ItemManagerTest {
     public void testFindItemById() {
         when(itemManager.findById(item1.getId())).thenReturn(Optional.of(item1));
 
-        Optional<Item> retrievedItem = itemManager.findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        Optional<Item> retrievedItem = itemManager.findById(item1.getId());
 
-        verify(itemManager, times(1)).findById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        verify(itemManager, times(1)).findById(item1.getId());
 
         // Assert the expected result
         assertTrue(retrievedItem.isPresent());
@@ -79,11 +77,11 @@ public class ItemManagerTest {
 
     @Test
     void testDelete() {
-        doNothing().when(itemManager).deleteById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        doNothing().when(itemManager).deleteById(item1.getId());
 
-        itemManager.deleteById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        itemManager.deleteById(item1.getId());
 
-        verify(itemManager, times(1)).deleteById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        verify(itemManager, times(1)).deleteById(item1.getId());
     }
 
 }

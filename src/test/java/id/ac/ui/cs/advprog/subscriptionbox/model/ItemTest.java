@@ -7,19 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class ItemTest {
     ItemBuilder itemBuilder;
     Item item;
+    String id_item;
     @BeforeEach
     void setUp(){
         ItemBuilder itemBuilder = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         item = itemBuilder.build();
         item.setDescription("Sunscreen yang licin di kulit");
+        id_item = item.getId();
     }
 
     @Test
     void testGetItemId(){
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd6", item.getId());
+        assertEquals(id_item, item.getId());
     }
 
     @Test

@@ -15,20 +15,18 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name="subscriptionbox")
 public class SubscriptionBox {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String name;
     private String image;
     private String description;
     private double price;
 
-//    @OneToMany(fetch = FetchType.EAGER)
     @OneToMany(fetch = FetchType.LAZY, mappedBy="subscriptionbox", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Set<ItemInBox> itemInBoxList;
 
     protected SubscriptionBox(BoxBuilder builder) {
-        this.id = builder.getId();
         this.name = builder.getName();
         this.image = builder.getImage();
     }

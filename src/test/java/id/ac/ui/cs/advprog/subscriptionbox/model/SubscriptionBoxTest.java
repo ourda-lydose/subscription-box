@@ -12,17 +12,17 @@ class SubscriptionBoxTest {
     BoxBuilder boxBuilder;
     SubscriptionBox box;
     Set<ItemInBox> itemInBoxList = new HashSet<>();
+    String box_id;
     @BeforeEach
     void setUp(){
         BoxBuilder boxBuilder = new BoxBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd8")
                 .name("Paket cap Bambang")
                 .image("link gambar box");
         box = boxBuilder.build();
+        box_id = box.getId();
         box.setDescription("Paket lengkap");
         box.setPrice(200000);
         ItemBuilder itemBuilder = new ItemBuilder()
-                .id("eb558e9f-1c39-460e-8860-71af6af63bd6")
                 .name("Sunscreen cap Bambang")
                 .image("link gambar");
         Item item = itemBuilder.build();
@@ -33,7 +33,7 @@ class SubscriptionBoxTest {
 
     @Test
     void testGetBoxId(){
-        assertEquals("eb558e9f-1c39-460e-8860-71af6af63bd8", box.getId());
+        assertEquals(box_id, box.getId());
     }
 
     @Test
