@@ -97,18 +97,9 @@ public class BoxController {
     @Autowired
     private BoxService boxService;
 
-//    @PostMapping // Use POST for creating new subscription boxes
-//    public ResponseEntity<SubscriptionBox> createBox(@RequestBody BoxRequest boxRequest) {
-//        BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
-//        String description = boxRequest.getDescription();
-//        double price = boxRequest.getPrice();
-//        Set<ItemInBox> itemsInBoxList = boxRequest.getItemInBoxList();
-//        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price, itemsInBoxList);
-//        return new ResponseEntity<>(createdBox, HttpStatus.CREATED); // CREATED status code
-//    }
     @PostMapping // Use POST for creating new subscription boxes
     public CompletableFuture<ResponseEntity<?>> createBox(@RequestBody BoxRequest boxRequest) {
-        CompletableFuture<SubscriptionBox> future = CompletableFuture.supplyAsync(() -> {
+        CompletableFuture<CompletableFuture<SubscriptionBox>> future = CompletableFuture.supplyAsync(() -> {
             BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
             String description = boxRequest.getDescription();
             double price = boxRequest.getPrice();
@@ -153,11 +144,9 @@ public class BoxController {
     @PutMapping("/{boxId}") // Use PUT for updating existing subscription boxes
     public ResponseEntity<SubscriptionBox> updateBox(@PathVariable String boxId, @RequestBody SubscriptionBox box) {
         SubscriptionBox updatedBox = boxService.update(boxId, box);
-        System.out.println("masuk update");
         if (updatedBox == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Box not found
         }
-        System.out.println("udh fix update");
         return new ResponseEntity<>(updatedBox, HttpStatus.OK);
     }
 

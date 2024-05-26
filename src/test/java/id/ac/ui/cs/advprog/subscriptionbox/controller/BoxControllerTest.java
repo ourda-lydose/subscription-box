@@ -16,12 +16,16 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -85,23 +89,33 @@ public class BoxControllerTest {
     }
 
     @Test
-    public void testCreateBox() throws Exception {
+    void createBox_ReturnsCreatedBox() {
         BoxRequest boxRequest = new BoxRequest();
         boxRequest.setBoxBuilder(boxBuilder);
         boxRequest.setDescription("Paket lengkap");
         boxRequest.setPrice(200000);
         boxRequest.setItemInBoxList(itemInBoxList);
+        CompletableFuture<SubscriptionBox> future = CompletableFuture.completedFuture(box);
 
+        when(boxService.create(any(), anyString(), anyDouble(), anySet())).thenAnswer(invocation -> future);
 
-        when(boxService.create(boxBuilder, "Paket lengkap", 200000, itemInBoxList)).thenReturn(box);
+        ResponseEntity<?> responseEntity = boxController.createBox(boxRequest).join();
 
-        mockMvc.perform(post("/box")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(boxRequest)))
-                .andExpect(status().isCreated());
-//                .andExpect(content().json(objectMapper.writeValueAsString(boxRequest)));
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(future, responseEntity.getBody());
+    }
 
-//        verify(boxService, times(1)).create(boxBuilder, "Paket lengkap", 200000, itemInBoxList);
+    @Test
+    void createBox_ReturnsInternalServerError() {
+        BoxRequest boxRequest = new BoxRequest(/* provide necessary parameters */);
+        CompletableFuture<SubscriptionBox> future = CompletableFuture.completedFuture(null);
+
+        when(boxService.create(any(), anyString(), anyDouble(), anySet())).thenAnswer(invocation -> future);
+
+        ResponseEntity<?> responseEntity = boxController.createBox(boxRequest).join();
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
+        assertEquals("Failed to create subscription box", responseEntity.getBody());
     }
 
     @Test
@@ -164,24 +178,17 @@ public class BoxControllerTest {
                 .andExpect(status().isOk()); // Expect OK status even if no items
     }
 
-//    @Test
-//    public void testUpdateBox_Success() throws Exception {
-//        // Mock findById to return existing item
-////        when(boxManager.findById(box.getId())).thenReturn(box);
-////        when(boxManager.findById(boxLain.getId())).thenReturn(boxLain);
-////        when(boxService.findById(box.getId())).thenReturn(box);
-////        when(boxService.findById(boxLain.getId())).thenReturn(boxLain);
-//        when(boxService.update(boxLain.getId(), box)).thenReturn(box);
-//
-//        // Update the item
-//        mockMvc.perform(put("/box/" + boxLain.getId())
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(box)))
-//                .andExpect(status().isOk())
-//                .andExpect(content().json(objectMapper.writeValueAsString(boxLain)));
-//
-//        verify(boxService, times(1)).update(boxLain.getId(), box);
-//    }
+    @Test
+    void updateBox_Successfull() {
+        // Mocking the behavior of boxService.update to return the updated box
+        when(boxService.update(eq(box.getId()), any(SubscriptionBox.class))).thenReturn(boxLain);
+
+        ResponseEntity<SubscriptionBox> responseEntity = boxController.updateBox(box.getId(), boxLain);
+
+        // Verify that the response status is OK and the returned box is the updated one
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(boxLain, responseEntity.getBody());
+    }
 
     @Test
     public void testUpdateBox_NotFound() throws Exception {
