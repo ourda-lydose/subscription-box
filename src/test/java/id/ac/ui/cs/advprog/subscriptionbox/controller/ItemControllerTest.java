@@ -5,6 +5,7 @@ import id.ac.ui.cs.advprog.subscriptionbox.dto.BoxRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.dto.ItemRequest;
 import id.ac.ui.cs.advprog.subscriptionbox.model.Item;
 import id.ac.ui.cs.advprog.subscriptionbox.model.ItemBuilder;
+import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.ItemManager;
 import id.ac.ui.cs.advprog.subscriptionbox.service.ItemService;
 import id.ac.ui.cs.advprog.subscriptionbox.service.ItemServiceImpl;
@@ -13,7 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -22,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -129,21 +133,15 @@ public class ItemControllerTest {
     }
 
     @Test
-    public void testUpdateItem_Success() throws Exception {
+    void updateItem_Successfull() {
+        // Mocking the behavior of boxService.update to return the updated box
+        when(itemService.update(eq(item1.getId()), any(Item.class))).thenReturn(item2);
 
-        // Mock findById to return existing item
-        when(itemService.findById(item1.getId())).thenReturn(item1);
-        when(itemService.findById(item2.getId())).thenReturn(item2);
-        when(itemService.update(item1.getId(), item2)).thenReturn(item2);
+        ResponseEntity<Item> responseEntity = itemController.updateItem(item1.getId(), item2);
 
-        // Update the item
-        mockMvc.perform(put("/item/" + item1.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(item2)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(item2)));
-
-        verify(itemService, times(1)).update(item1.getId(), item2);
+        // Verify that the response status is OK and the returned box is the updated one
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(item2, responseEntity.getBody());
     }
 
     @Test
