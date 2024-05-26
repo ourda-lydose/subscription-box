@@ -1,9 +1,7 @@
-val junitJupiterVersion = "5.9.1"
-
 plugins {
     java
     jacoco
-    id("org.springframework.boot") version "3.2.4"
+    id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.4"
     id("org.sonarqube") version "4.4.1.3373"
 }
@@ -14,6 +12,11 @@ version = "0.0.1-SNAPSHOT"
 java {
     sourceCompatibility = JavaVersion.VERSION_21
 }
+
+val seleniumJavaVersion = "4.14.1"
+val seleniumJupiterVersion = "5.0.1"
+val webdrivermanagerVersion = "5.6.3"
+val junitJupiterVersion = "5.9.1"
 
 configurations {
     compileOnly {
@@ -46,12 +49,23 @@ dependencies {
 }
 
 tasks.register<Test>("unitTest") {
-    description = "Run unit tests."
+    description = "Runs unit tests."
     group = "verification"
+
     filter {
         excludeTestsMatching("*FunctionalTest")
     }
 }
+
+tasks.register<Test>("functionalTest") {
+    description = "Runs functional tests."
+    group = "verification"
+
+    filter {
+        includeTestsMatching("*FunctionalTest")
+    }
+}
+
 
 tasks.withType<Test>().configureEach {
     useJUnitPlatform()
@@ -61,7 +75,6 @@ tasks.test {
     filter {
         excludeTestsMatching("*FunctionalTest")
     }
-
     finalizedBy(tasks.jacocoTestReport)
 }
 
