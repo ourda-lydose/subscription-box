@@ -88,6 +88,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/box") // Use /api/box for a clear API endpoint
@@ -96,14 +97,32 @@ public class BoxController {
     @Autowired
     private BoxService boxService;
 
+//    @PostMapping // Use POST for creating new subscription boxes
+//    public ResponseEntity<SubscriptionBox> createBox(@RequestBody BoxRequest boxRequest) {
+//        BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
+//        String description = boxRequest.getDescription();
+//        double price = boxRequest.getPrice();
+//        Set<ItemInBox> itemsInBoxList = boxRequest.getItemInBoxList();
+//        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price, itemsInBoxList);
+//        return new ResponseEntity<>(createdBox, HttpStatus.CREATED); // CREATED status code
+//    }
     @PostMapping // Use POST for creating new subscription boxes
-    public ResponseEntity<SubscriptionBox> createBox(@RequestBody BoxRequest boxRequest) {
-        BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
-        String description = boxRequest.getDescription();
-        double price = boxRequest.getPrice();
-        Set<ItemInBox> itemsInBoxList = boxRequest.getItemInBoxList();
-        SubscriptionBox createdBox = boxService.create(boxBuilder, description, price, itemsInBoxList);
-        return new ResponseEntity<>(createdBox, HttpStatus.CREATED); // CREATED status code
+    public CompletableFuture<ResponseEntity<?>> createBox(@RequestBody BoxRequest boxRequest) {
+        CompletableFuture<SubscriptionBox> future = CompletableFuture.supplyAsync(() -> {
+            BoxBuilder boxBuilder = boxRequest.getBoxBuilder();
+            String description = boxRequest.getDescription();
+            double price = boxRequest.getPrice();
+            Set<ItemInBox> itemsInBoxList = boxRequest.getItemInBoxList();
+            return boxService.create(boxBuilder, description, price, itemsInBoxList);
+        });
+
+        return future.thenApply(createdBox -> {
+            if (createdBox != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(createdBox);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create subscription box");
+            }
+        });
     }
 
     @GetMapping // Use GET for retrieving all subscription boxes
