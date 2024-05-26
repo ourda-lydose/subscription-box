@@ -134,9 +134,11 @@ public class BoxController {
     @PutMapping("/{boxId}") // Use PUT for updating existing subscription boxes
     public ResponseEntity<SubscriptionBox> updateBox(@PathVariable String boxId, @RequestBody SubscriptionBox box) {
         SubscriptionBox updatedBox = boxService.update(boxId, box);
+        System.out.println("masuk update");
         if (updatedBox == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Box not found
         }
+        System.out.println("udh fix update");
         return new ResponseEntity<>(updatedBox, HttpStatus.OK);
     }
 
