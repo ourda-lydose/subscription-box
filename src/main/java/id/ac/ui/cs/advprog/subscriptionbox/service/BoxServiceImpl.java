@@ -5,17 +5,20 @@ import id.ac.ui.cs.advprog.subscriptionbox.model.ItemInBox;
 import id.ac.ui.cs.advprog.subscriptionbox.model.SubscriptionBox;
 import id.ac.ui.cs.advprog.subscriptionbox.repository.BoxManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class BoxServiceImpl implements BoxService {
     @Autowired
     private BoxManager boxManager;
 
+    @Async
     @Override
-    public SubscriptionBox create(BoxBuilder boxBuilder, String description, double price, Set<ItemInBox> itemInBoxList) {
+    public CompletableFuture<SubscriptionBox> create(BoxBuilder boxBuilder, String description, double price, Set<ItemInBox> itemInBoxList) {
         SubscriptionBox box = boxBuilder.build();
         box.setDescription(description);
         box.setPrice(price);
@@ -33,14 +36,9 @@ public class BoxServiceImpl implements BoxService {
         box.setItemInBoxList(itemInBoxSet);
 
         boxManager.save(box);
-        return box;
+        return CompletableFuture.completedFuture(box);
     }
 
-//    @Async
-//    public SubscriptionBox createAsync(SubscriptionBox box) throws InterruptedException{
-//        SubscriptionBox savedBox = boxManager.save(box);
-//        return new AsyncResult<>(savedBox);
-//    }
 
     @Override
     public List<SubscriptionBox> findAll() {

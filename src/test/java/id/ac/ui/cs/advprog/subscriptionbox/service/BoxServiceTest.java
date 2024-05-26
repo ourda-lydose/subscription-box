@@ -126,4 +126,24 @@ class BoxServiceTest {
         verify(boxManager).deleteById(box1.getId());
     }
 
+    @Test
+    void findById_BoxFound() {
+        when(boxManager.findById(eq(box1.getId()))).thenReturn(Optional.of(box1));
+
+        SubscriptionBox actualBox = service.findById(box1.getId());
+
+        // Verify that the returned SubscriptionBox matches the expected one
+        assertEquals(box1, actualBox);
+    }
+
+    @Test
+    void findById_BoxNotFound() {
+        // Mock the behavior of boxManager.findById to return an empty Optional
+        String id = "1";
+        when(boxManager.findById(eq(id))).thenReturn(Optional.empty());
+
+        // Verify that calling findById with the given ID throws a RuntimeException
+        assertThrows(RuntimeException.class, () -> service.findById(id));
+    }
+
 }

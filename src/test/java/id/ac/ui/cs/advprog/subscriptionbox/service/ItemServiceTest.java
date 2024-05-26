@@ -103,4 +103,23 @@ class ItemServiceTest {
         verify(itemManager).deleteById(item1.getId());
     }
 
+    @Test
+    void findById_ItemFound() {
+        when(itemManager.findById(eq(item1.getId()))).thenReturn(Optional.of(item1));
+
+        Item actualItem = service.findById(item1.getId());
+
+        assertEquals(item1, actualItem);
+    }
+
+    @Test
+    void findById_ItemNotFound() {
+        // Mock the behavior of boxManager.findById to return an empty Optional
+        String id = "1";
+        when(itemManager.findById(eq(id))).thenReturn(Optional.empty());
+
+        // Verify that calling findById with the given ID throws a RuntimeException
+        assertThrows(RuntimeException.class, () -> service.findById(id));
+    }
+
 }
