@@ -22,7 +22,7 @@ public class SubscriptionBox {
     private String description;
     private double price;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="subscriptionbox", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy="subscriptionbox", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private Set<ItemInBox> itemInBoxList;
 
