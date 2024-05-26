@@ -3,8 +3,7 @@ package id.ac.ui.cs.advprog.subscriptionbox.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Getter @Setter
-@Data @Entity
+@Getter @Setter @Entity
 @NoArgsConstructor
 @Table(name="item")
 public class Item{
